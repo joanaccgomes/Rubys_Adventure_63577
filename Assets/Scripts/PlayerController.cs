@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+//projectile
+    public GameObject projectilePrefab;
+
 //movement
     public InputAction MoveAction;
     Rigidbody2D rigidbody2d;
@@ -38,6 +41,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+            if(Input.GetKeyDown(KeyCode.C)){
+                Launch();
+            }
+
+
         move = MoveAction.ReadValue<Vector2>();
 
         if(!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f)){
@@ -78,5 +86,13 @@ public class PlayerController : MonoBehaviour
         }
          currentHealth =Mathf.Clamp(currentHealth + amount, 0, maxHealth);
          UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
+    }
+
+    void Launch(){
+    GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+    Projectile projectile = projectileObject.GetComponent<Projectile>();
+    projectile.Launch(moveDirection, 300);
+
+    animator.SetTrigger("Launch");
     }
 }

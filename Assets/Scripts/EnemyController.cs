@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    bool broken = true;
+
+
     public float speed;
     public bool vertical;
     public float changeTime = 3.0f;
@@ -32,6 +35,11 @@ public class EnemyController : MonoBehaviour
     }
     void FixedUpdate()
     {
+            if(!broken){
+                return;
+            }
+
+
         Vector2 position = rigidbody2d.position;
 
         if (vertical){
@@ -52,10 +60,18 @@ public class EnemyController : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other){
+
+        
+
         PlayerController player = other.gameObject.GetComponent<PlayerController>();
 
         if (player != null){
             player.ChangeHealth(-1);
         }
+    }
+
+    public void Fix(){
+        broken = false;
+        rigidbody2d.simulated = false;
     }
 }
