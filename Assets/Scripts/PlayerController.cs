@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    //audio
+    AudioSource audioSource;
+
+
     // Variables related to player character movement
     public InputAction MoveAction;
     Rigidbody2D rigidbody2d;
@@ -31,6 +35,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+            audioSource = GetComponent<AudioSource>();
+
+
         MoveAction.Enable();
         rigidbody2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
@@ -128,6 +135,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+    public void PlaySound(AudioClip clip){
+        audioSource.PlayOneShot(clip);
+    }
     
 }
